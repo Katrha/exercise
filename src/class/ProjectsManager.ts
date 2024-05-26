@@ -24,11 +24,35 @@ newProject(data: IProject){
         if (!(projectsPage && detailsPage)) { return }
         projectsPage.style.display = "none"
         detailsPage.style.display = "flex"
+        this.setDetailsPage(project)
     })
     this.ui.append(project.ui)
     this.list.push(project)
     return project
 }
+
+private setDetailsPage(project: Project) {
+    const detailsPage = document.getElementById("project-details")
+    if (!detailsPage) { return }
+        const nameTitle= detailsPage.querySelector("[data-project-info='name-title']")
+        const descriptionTitle = detailsPage.querySelector("[data-project-info='description-title']")
+        const name = detailsPage.querySelector("[data-project-info='name']")
+        const description = detailsPage.querySelector("[data-project-info='description']")
+        const status = detailsPage.querySelector("[data-project-info='status']")
+        const cost = detailsPage.querySelector("[data-project-info='cost']")
+
+
+        if (nameTitle) { nameTitle.textContent = project.name }
+        if (descriptionTitle) { descriptionTitle.textContent = project.description }
+        if (name) { name.textContent = project.name }
+        if (description) { description.textContent = project.description }
+        if (status) { status.textContent = project.status }
+        if (cost) { 
+            const projectCostString = project.cost.toString()
+            cost.textContent = projectCostString }
+
+}
+
 
 
 
@@ -89,7 +113,7 @@ importFromJSON() {
             try {
                 this.newProject(project)
             } catch (error) {
-                
+
             }
             
         }

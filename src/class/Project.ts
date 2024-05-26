@@ -33,7 +33,6 @@ export class Project implements IProject {
             }
             this[key] = data[key]
         }
-        
         this.setUI()
     }
 
