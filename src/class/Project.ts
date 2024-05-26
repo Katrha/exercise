@@ -38,7 +38,7 @@ export class Project implements IProject {
     }
 
 
-    //Project card UI
+    //Creates the Project card UI
     setUI() {
         if (this.ui) {return}
         this.ui = document.createElement("div")
