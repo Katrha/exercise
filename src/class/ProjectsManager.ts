@@ -39,8 +39,6 @@ private setDetailsPage(project: Project) {
         const name = detailsPage.querySelector("[data-project-info='name']")
         const description = detailsPage.querySelector("[data-project-info='description']")
         const status = detailsPage.querySelector("[data-project-info='status']")
-        
-
 
         if (nameTitle) { nameTitle.textContent = project.name }
         if (descriptionTitle) { descriptionTitle.textContent = project.description }
