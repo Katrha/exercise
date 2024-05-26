@@ -39,7 +39,7 @@ private setDetailsPage(project: Project) {
         const name = detailsPage.querySelector("[data-project-info='name']")
         const description = detailsPage.querySelector("[data-project-info='description']")
         const status = detailsPage.querySelector("[data-project-info='status']")
-        const cost = detailsPage.querySelector("[data-project-info='cost']")
+        
 
 
         if (nameTitle) { nameTitle.textContent = project.name }
@@ -47,10 +47,7 @@ private setDetailsPage(project: Project) {
         if (name) { name.textContent = project.name }
         if (description) { description.textContent = project.description }
         if (status) { status.textContent = project.status }
-        if (cost) { 
-            const projectCostString = project.cost.toString()
-            cost.textContent = projectCostString }
-
+       
 }
 
 
