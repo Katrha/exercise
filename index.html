@@ -41,7 +41,7 @@
                     </div>
                 </form>
             </dialog>
-
+    <!-- NEW PROJECT MODAL -->
             <dialog id="new-project-modal">
                 <form id="new-project-form">
                     <h2>New Project</h2>
@@ -63,6 +63,17 @@
                             </div>
                             <textarea name="description" cols="30" rows="5" placeholder="Describre your project"></textarea>
                         </div>
+
+                        <div class="form-field-container">
+                            <div class="form-field-title">
+                                <span class="material-symbols-outlined"
+                                    style="padding-right: 10px; padding-top: 0px">euro</span>
+                                <label>Cost</label>
+                            </div>
+                            <input name="cost" type="number" placeholder="What is the cost of the project?">
+                        </div>
+
+
                         <div class="form-field-container">
                             <div class="form-field-title">
                                 <span class="material-symbols-outlined"
@@ -119,40 +130,36 @@
             </div>
 
         </div>
-        <!-- projects-detail is not hidden with an inline style -->
+        <!-- PROJECT DETAIL PAGE is not hidden with an inline style -->
         <div class="page" id="project-details">
             <header>
                 <div>
-                    <h2>Hospital Center</h2>
-                    <p style="color: #969696;"> Community hospital located at downtown</p>
+                    <h2 data-project-info="name-title">Hospital Center</h2>
+                    <p data-project-info="description-title" style="color: #969696;"> Community hospital located at downtown</p>
                 </div>
             </header>
             <div class="main-page-content">
                 <div style="display: flex; flex-direction:column; row-gap: 30px">
                     <div class="dashboard-card" style="padding: 30px 0;">
-                        <div
-                            style="display: flex; justify-content: space-between; align-items: center; padding: 0px 30px; margin-bottom: 30px;">
-                            <p
-                                style="font-size: 20px; background-color:brown; aspect-ratio: 1; border-radius: 100%; padding: 12px;">
-                                HC</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0px 30px; margin-bottom: 30px;">
+                            <p style="font-size: 20px; background-color:brown; aspect-ratio: 1; border-radius: 100%; padding: 12px;">HC</p>
                             <button class="btn-secondary">
                                 <p style="width: 100%;">Edit</p>
                             </button>
                         </div>
                         <div style="padding: 0 30px;">
                             <div>
-                                <h5>Hospital Center</h5>
-                                <p>Community hospital located at downtown</p>
+                                <h5 data-project-info="name">Hospital Center</h5>
+                                <p data-project-info="description">Community hospital located at downtown</p>
                             </div>
-                            <div
-                                style="display: flex; column-gap: 30px; padding: 30px 0px; justify-content: space-between;">
+                            <div style="display: flex; column-gap: 30px; padding: 30px 0px; justify-content: space-between;">
                                 <div>
                                     <p style="color: #969696; font-size: var(--font-sm)">Status</p>
-                                    <p>Active</p>
+                                    <p data-project-info="status">Active</p>
                                 </div>
                                 <div>
                                     <p style="color: #969696; font-size: var(--font-sm)">Cost</p>
-                                    <p>$ 2'542.000</p>
+                                    <p data-project-info="cost">$ 2'542.000</p>
                                 </div>
                                 <div>
                                     <p style="color: #969696; font-size: var(--font-sm)">Role</p>
