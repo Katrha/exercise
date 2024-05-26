@@ -1,0 +1,393 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&display=swap');
+
+
+:root {
+    --primary: brown;
+    --primary-100: #4e2929;
+    --primary-200: #aab4f0;
+    --primary-300: #434163;
+    --primary-400: rgb(161, 135, 231);
+
+    --background: #2d333a;
+    --background-100: #404449;
+    --background-200: #7a7a7a;
+
+    --font-xs: 10px;
+    --font-sm: 12px;
+    --font-base: 14px;
+    --font-lg: 16px;
+    --font-xl: 18px;
+    --font-2xl: 20px;
+    --font-3xl: 22px;
+
+
+}
+
+
+
+* {
+    font-family: "Inter", sans-serif;
+    margin: 0px;
+    padding: 0px;
+}
+
+
+body {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    grid-template-areas: "sidebar content";
+    height: 100vh;
+    background-color: var(--background);
+    color: white;
+    margin: 0;
+}
+
+/* GENERAL STYLES */
+
+h2 {
+    font-size: var(--font-3xl);
+}
+
+h3 {
+    font-size: var(--font-2xl);
+}
+
+h4 {
+    font-size: var(--font-xl);
+}
+
+h5 {
+    font-size: var(--font-lg);
+}
+
+
+
+
+
+button {
+    display: flex;
+    align-items:center;
+    padding: 8px 15px;
+    cursor: pointer;
+    height: 40px;
+    font-size: var(--font-size-normal);
+    background-color: var(--primary);
+    color: white;
+    border-radius: 50px;
+    border: none;
+}
+
+button:hover {
+    outline: 2px solid white;
+
+}
+
+.action-icon {
+    cursor: pointer;
+    align-items:center;
+    padding: 8px 10px;
+    border-radius: 50px;
+}
+
+.action-icon:hover {
+    background-color: var(--primary);
+}
+
+
+.page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+}
+
+/* SIDEBAR STYLES */
+
+#sidebar {
+    background-color: var(--background-100);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
+}
+
+
+#company-logo {
+    height: 65px;
+}
+
+#nav-buttons {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+
+
+}
+
+#nav-buttons li {
+    display: flex;
+
+    list-style-type: none;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: var(--font-size-normal);
+    cursor: pointer;
+
+}
+
+#nav-buttons li:hover {
+    background-color: var(--primary)
+}
+
+/* CONTENT STYLES */
+
+header {
+    padding: 30px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#project-list {
+    display: grid;
+    padding: 20px 40px;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+}
+
+
+
+.project-card {
+    background-color: var(--background-100);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.project-card:hover {
+    outline: 2px solid var(--primary);
+}
+
+.card-header {
+    display: flex;
+    column-gap: 20px;
+    padding: 15px 20px;
+    align-items: center;
+    justify-content: start;
+    border-bottom: 1px solid rgb(168, 167, 167);
+    height: 60px;
+}
+
+.card-content {
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    align-items: start;
+}
+
+.card-property {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* DIALOG STYLES */
+
+dialog {
+    background-color: transparent;
+    border: none;
+    margin: auto;
+}
+
+dialog::backdrop {
+    background-color: rgb(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+}
+
+
+
+/* FORM STYLES */
+
+form {
+    width: 450px;
+    border-radius: 10px;
+    background-color: var(--background);
+    color: white;
+}
+
+form h2 {
+    padding: 20px;
+    border-bottom: 2px solid var(--background-200);
+}
+
+form .error-container{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    row-gap: 25px;
+}
+
+form .input-list {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    row-gap: 25px;
+}
+
+form .form-field-container {
+    display: flex;
+    flex-direction: column;
+}
+
+form .form-field-title {
+    display: flex;
+    color: white;
+    margin-bottom: 5px;
+}
+
+form .form-button-container {
+    display: flex;
+    margin-bottom: 5px;
+    flex-direction: row;
+    column-gap: 10px;
+    justify-content: flex-end;
+    padding: 0px 20px 15px;
+}
+
+label {
+    font-size: var(--font-base);
+    margin-bottom: 0px;
+    font-weight: 500;
+    color: white;
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+}
+
+
+form .tip-text {
+    font-size: var(--font-sm);
+    font-style: italic;
+    color: var(--background-200);
+}
+
+input,
+textarea,
+select {
+    color: white;
+    background-color: var(--background-100);
+    padding: 15px;
+    border-radius: 8px;
+    border: none;
+    font-size: var(--font-base);
+
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: 2px solid var(--primary);
+}
+
+/* PROJECT DETAILS PAGE */
+
+.dashboard-card {
+    background-color: var(--background-100);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+#project-details>.main-page-content {
+    display: grid;
+    padding: 20px 40px;
+    gap: 30px;
+    grid-template-columns: 475px 1fr;
+    height: 100%;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    outline: 2px solid #969696;
+    width: 100px;
+    text-align: center;
+}
+
+.btn-secondary:hover {
+    background-color: var(--primary);
+    outline: none;
+}
+
+.todo-item {
+    padding: 20px;
+    background-color: var(--background-200);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.todo-item:hover {
+    background-color: var(--primary);
+}
+
+/* USER PAGE  */
+
+#filter {
+
+    display: flex;
+    flex-direction: row;
+    border-radius: 8px;
+    height: 30px;
+    margin: 0px 20px 0px 20px;
+    padding: 0px 8px 0px 8px;
+    justify-content: space-between;
+    
+}
+
+.filter-select {
+    border-radius: 4px;
+    border: 1px solid;
+    font-size: var(--font-base);
+    padding: 0px;
+}
+
+option {
+    font-size: var(--font-base);
+}
+
+.usuario {
+    display: grid;
+    grid-template-columns: 150px 400px 150px 80px 300px 400px;
+    align-items: center;
+    /* justify-content: space-between; */
+    margin: 0px 10px 0px 10px;
+    height: 100px;
+    border-radius: 8px;
+    background-color: var(--background-100);
+   
+}
+
+.usuario:hover{
+    outline: 2px solid brown;
+}
+
+
+.column-title {
+    display: grid;
+    grid-template-columns: 150px 400px 150px 80px 300px 400px;
+    margin: 0px 10px 0px 10px;
+    background-color: transparent;
+    color: #969696;
+    display: grid;
+    align-items: center;
+    /* justify-content:  space-between; */
+    margin: 0px 10px 0px 10px;
+    
+}
+
+.portrait{
+    border-radius: 50%;
+    width: 75px;
+    height: auto;
+    margin-left: 20px;
+}

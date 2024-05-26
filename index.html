@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+
+<body>
+    <aside id="sidebar">
+        <img id="company-logo" src="./assets/company-logo.svg" alt="Construcion Logo">
+        <ul id="nav-buttons">
+            <li id="projectsPageBtn">
+                <span class="material-symbols-outlined" style="padding-right: 10px; padding-top: 0px">home</span>
+                <p style="padding-top:2px;">Projects</p>
+            </li>
+            <li>
+                <span class="material-symbols-outlined" style="padding-right: 10px; padding-top: 0px">person</span>
+                <p style="padding-top:2px;">Users</p>
+            </li>
+        </ul>
+    </aside>
+    
+    <main id="content">
+    
+        <!-- projects-page is not hidden with an inline style -->
+        <div class="page" id="projects-page">
+
+            <dialog id="error-modal">
+                <form id="error-form">
+                    <h2>Atention</h2>
+                    <div class="error-container">
+                        <label id="err"></label>
+                    </div>  
+                    <div class="form-button-container">
+                        <button id="close-error-modal">Close</button>
+                    </div>
+                </form>
+            </dialog>
+
+            <dialog id="new-project-modal">
+                <form id="new-project-form">
+                    <h2>New Project</h2>
+                    <div class="input-list">
+                        <div class="form-field-container">
+                            <div class="form-field-title">
+                                <span class="material-symbols-outlined"
+                                    style="padding-right: 10px; padding-top: 0px">apartment</span>
+                                <label>Name</label>
+                            </div>
+                            <input name="name" type="text" placeholder="What is the name of the project?">
+                            <label class="tip-text">TIP: Give it a short name.</label>
+                        </div>
+                        <div class="form-field-container">
+                            <div class="form-field-title">
+                                <span class="material-symbols-outlined"
+                                    style="padding-right: 10px; padding-top: 0px">article</span>
+                                <label>Description</label>
+                            </div>
+                            <textarea name="description" cols="30" rows="5" placeholder="Describre your project"></textarea>
+                        </div>
+                        <div class="form-field-container">
+                            <div class="form-field-title">
+                                <span class="material-symbols-outlined"
+                                    style="padding-right: 10px; padding-top: 0px">account_circle</span>
+                                <label>Role</label>
+                            </div>
+                            <select name="userRole">
+                                <option>Architect</option>
+                                <option>Engineer</option>
+                                <option>Developer</option>
+                            </select>
+                        </div>
+                        <div class="form-field-container">
+                            <div class="form-field-title">
+                                <span class="material-symbols-outlined"
+                                    style="padding-right: 10px; padding-top: 0px">not_listed_location</span>
+                                <label>Status</label>
+                            </div>
+                            <select name="status">
+                                <option>Pending</option>
+                                <option>Active</option>
+                                <option>Finished</option>
+                            </select>
+                        </div>
+                        <div class="form-field-container">
+                            <div class="form-field-title">
+                                <span class="material-symbols-outlined"
+                                    style="padding-right: 10px; padding-top: 0px">calendar_month</span>
+                                <label>Finish date</label>
+                            </div>
+                            <input name="finishDate" type="date" placeholder="mm/dd/yyyy">
+                        </div>
+                    </div>
+                    <div class="form-button-container">
+                        <button style="background-color: transparent">Cancel</button>
+                        <button>Accept</button>
+                    </div>
+                </form>
+            </dialog>
+
+            <header>
+                <h2>Projects</h2>
+                <div style="display: flex; align-items:center; column-gap:15px;">
+                    <span id="import-projects-btn" class="material-symbols-outlined action-icon">upload</span>
+                    <span id="export-projects-btn" class="material-symbols-outlined action-icon">download</span>
+                    <button id="new-project-btn" style="padding-right: 20px; padding-top: 10px;">
+                        <span class="material-symbols-outlined">add</span>
+                        <div style="margin-left: 10px;">New project</div>
+                    </button>
+                </div>
+            </header>
+
+            <div id="project-list">                
+            </div>
+
+        </div>
+        <!-- projects-detail is not hidden with an inline style -->
+        <div class="page" id="project-details">
+            <header>
+                <div>
+                    <h2>Hospital Center</h2>
+                    <p style="color: #969696;"> Community hospital located at downtown</p>
+                </div>
+            </header>
+            <div class="main-page-content">
+                <div style="display: flex; flex-direction:column; row-gap: 30px">
+                    <div class="dashboard-card" style="padding: 30px 0;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 0px 30px; margin-bottom: 30px;">
+                            <p
+                                style="font-size: 20px; background-color:brown; aspect-ratio: 1; border-radius: 100%; padding: 12px;">
+                                HC</p>
+                            <button class="btn-secondary">
+                                <p style="width: 100%;">Edit</p>
+                            </button>
+                        </div>
+                        <div style="padding: 0 30px;">
+                            <div>
+                                <h5>Hospital Center</h5>
+                                <p>Community hospital located at downtown</p>
+                            </div>
+                            <div
+                                style="display: flex; column-gap: 30px; padding: 30px 0px; justify-content: space-between;">
+                                <div>
+                                    <p style="color: #969696; font-size: var(--font-sm)">Status</p>
+                                    <p>Active</p>
+                                </div>
+                                <div>
+                                    <p style="color: #969696; font-size: var(--font-sm)">Cost</p>
+                                    <p>$ 2'542.000</p>
+                                </div>
+                                <div>
+                                    <p style="color: #969696; font-size: var(--font-sm)">Role</p>
+                                    <p>Engineer</p>
+                                </div>
+                                <div>
+                                    <p style="color: #969696; font-size: var(--font-sm)">Finish Date</p>
+                                    <p>2023-05-01</p>
+                                </div>
+                            </div>
+                            <div style="background-color: #404040; border-radius: 9999px; overflow: auto;">
+                                <div style="width: 80%; background-color: green; padding: 4px 0; text-align: center;">
+                                    80%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-card" style="flex-grow: 1;">
+                        <div
+                            style="padding: 20px 30px; display: flex; align-items: center; justify-content: space-between;">
+                            <h4>To-Do</h4>
+                            <div style="display: flex; align-items: center; justify-content: end; column-gap: 20px;">
+                                <div style="display: flex; align-items: center; column-gap: 10px;">
+                                    <span class="material-symbols-outlined">search</span>
+                                    <input type="text" placeholder="Search To-Do's by name"
+                                        style="width: 100%; background-color: var(--background)">
+                                </div>
+                                <span class="material-symbols-outlined">add</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; padding: 10px 30px; row-gap: 20px;">
+                            <div class="todo-item">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div style="display: flex; column-gap: 15px; align-items: center;">
+                                        <span class="material-symbols-outlined"
+                                            style="padding: 10px; background-color: #686868; border-radius: 10px;">construction</span>
+                                        <p>Make anything here as you want, even something longer.</p>
+                                    </div>
+                                    <p style="text-wrap: nowrap; margin-left: 10px;">Fri, 20 sep</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="viwer-container" class="dashboard-card"></div>
+            </div>
+        </div>
+        <!-- users page is shown  -->
+        <div class="page" id="users" style="display: none;">
+            <header>
+                <div>
+                    <h2>Users</h2>
+                </div>
+            </header>
+            <div id="filter">
+                <div style="display: flex; align-items: center">
+                    <span class="material-symbols-outlined">filter_alt</span>
+                    <label style="margin-left: 8px;">Select department:</label>
+                        <select class="filter-select" style="margin-left: 8px;">
+                            <option>Structures</option>
+                            <option>Architecture</option>
+                            <option>HVAC</option>
+                            <option>Administration</option>
+                        </select>
+                </div>
+                <div style="display: flex; align-items: center">
+                    <span class="material-symbols-outlined">bar_chart</span>
+                    <label style="margin-left: 8px;">Score:</label>
+                        <input class="filter-select" type="text" placeholder="00" style="margin-left: 8px; width: 20px">
+                        <label style="margin-left: 5px;">/100</label>
+                </div>
+                <div style="display: flex; align-items: center">
+                    <span class="material-symbols-outlined">sort</span>
+                    <label style="margin-left: 8px;">Sort by:</label>
+                    <select class="filter-select" style="margin-left: 8px;">
+                        <option>Name</option>
+                        <option>Experience</option>
+                        <option>Location</option>
+                    </select>
+                </div>
+            </div>
+            <div style="display:flex; flex-direction:column; row-gap: 10px; padding-top:60px;">
+                <hr style="color:#969696; margin-bottom:30px;">
+                <div class="column-title">
+                    <label>Photo</label>
+                    <label>Name</label>
+                    <label>Departament</label>
+                    <label>Score</label>
+                    <label>Contact</label>
+                    <label>Observations</label>
+                </div>
+
+                
+                <div class="usuario">
+                    <div>
+                        <img class="portrait"  src="assets/aiony-haust-3TLl_97HNJo-unsplash.jpg" alt="Photo" >
+                    </div>
+                    <div id="photo_name">                        
+                        <p>Carolina Dumbersong Finsgorlin</p>
+                    </div>
+                    <div id="department">
+                        <p>Structures</p>
+                    </div>
+                    <div id="score">
+                        <h2>97</h2>
+                    </div>
+                    <div id="contact">
+                        <p>CarloniaD@ggmail.com</p>
+                    </div>
+                    <div id="observations">
+                        <p>Highly motivaded and result-driven person.</p>
+                    </div>
+                </div>
+
+                <div class="usuario">
+                    <div>
+                        <img class="portrait"  src="assets/albert-dera-ILip77SbmOE-unsplash.jpg" alt="Photo" >
+                    </div>
+                    <div id="photo_name">                        
+                        <p>Paco Hemingway Njjorden</p>
+                    </div>
+                    <div id="department">
+                        <p>Architecture</p>
+                    </div>
+                    <div id="score">
+                        <h2>89</h2>
+                    </div>
+                    <div id="contact">
+                        <p>PacoHH56@ggmail.com</p>
+                    </div>
+                    <div id="observations">
+                        <p>Very lazy and slow worker. Fan of Star Wars.</p>
+                    </div>
+                </div>
+
+                <div class="usuario">
+                    <div>
+                        <img class="portrait"  src="assets/caique-nascimento-BOHyxqepP9Y-unsplash.jpg" alt="Photo" >
+                    </div>
+                    <div id="photo_name">                        
+                        <p>Cecilia Nonduermas Ricochette</p>
+                    </div>
+                    <div id="department">
+                        <p>Architecture</p>
+                    </div>
+                    <div id="score">
+                        <h2>86</h2>
+                    </div>
+                    <div id="contact">
+                        <p>Ceci_laroneanta@ggmail.com</p>
+                    </div>
+                    <div id="observations">
+                        <p>Very good worker. Learns fast and its always in a good mood.</p>
+                    </div>
+                </div>
+
+                <div class="usuario">
+                    <div>
+                        <img class="portrait"  src="assets/foto-sushi-6anudmpILw4-unsplash.jpg" alt="Photo" >
+                    </div>
+                    <div id="photo_name">                        
+                        <p>Walter Matthau Rodrigrez</p>
+                    </div>
+                    <div id="department">
+                        <p>HVAC</p>
+                    </div>
+                    <div id="score">
+                        <h2>79</h2>
+                    </div>
+                    <div id="contact">
+                        <p>waltorious_theG@ggmail.com</p>
+                    </div>
+                    <div id="observations">
+                        <p>He has an obsession with pizza. Might be a genius.</p>
+                    </div>
+                </div>
+         
+                <div class="usuario">
+                    <div>
+                        <img class="portrait"  src="assets/matheus-ferrero-pg_WCHWSdT8-unsplash.jpg" alt="Photo" >
+                    </div>
+                    <div id="photo_name">                        
+                        <p>Maria Manuela de todos los Santos Gonzalez</p>
+                    </div>
+                    <div id="department">
+                        <p>HVAC</p>
+                    </div>
+                    <div id="score">
+                        <h2>75</h2>
+                    </div>
+                    <div id="contact">
+                        <p>MariaM_4eva@ggmail.com</p>
+                    </div>
+                    <div id="observations">
+                        <p>She never talks, but we know she is not mute. Kinda creepy. Best worker in the office.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="main-page-content">
+    </main>
+    <script type="module" src="./src/index.ts"></script>
+</body>
+    
+</html>
