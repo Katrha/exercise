@@ -8,28 +8,49 @@ export class ProjectsManager {
         this.ui = container
     }
 
+//FUNCION QUE CREA EL PROYECTO NUEVO. INTERFACE PARA ASEGURARNOS TIPOS DE DATOS CORRECTOS.
 newProject(data: IProject){
-    const projectNames = this.list.map((project) => {
-        return project.name
+
+    // projectNames ES EL RESULTADO DE APLICAR LA FUNCION "return project.name" A TODOS LOS ELEMENTOS DE LIST.projectVariable SOLO SIRVE DE MANERA LOCAL A ESTA FUNCION.
+    const projectNames = this.list.map((projectVariable) => {      
+            return projectVariable.name 
     })
+    // SI "data.name" SE ENCUENTRA EN projectNames, DA ERROR.
     const nameInUse = projectNames.includes(data.name)
     if (nameInUse) {
-        throw new Error(`A project with the name "${data.name}" already exists`)
-
+        throw new Error(`"${data.name}" already exists`)
     }
+
+    //VALIDACION PARA CONFIRMAR QUE NAME DEL PROYECTO TIENE MAS DE 4 CARACTERES.
+    const validationName = data.name
+    if (validationName && validationName.length <5){
+        throw new Error(`"${data.name}" is not a valid Project name cause it is too short. Please enter a new Project name at least 5 character long.`)
+    }
+
+    // CREA UN OBJETO Project (DEFINIDO EN Project.ts) CON LA INFO PASADA EN COMO data.
     const project = new Project(data)
+
+    // ESTE EVENTO OCURRE CUANDO CLICAMOS EN EL CONTAINER DEL PROYECTO. DEFNIDO COMO project.ui.
     project.ui.addEventListener("click", () => {
+        // ASIGNAMOS VARIABLES CON ELEMENTOS HTML 
         const projectsPage = document.getElementById("projects-page")
         const detailsPage = document.getElementById("project-details")
         if (!(projectsPage && detailsPage)) { return }
+        //OCULTA PAGINA DE PROYECTO Y MUESTRA PAGINA DE DETALLE
         projectsPage.style.display = "none"
         detailsPage.style.display = "flex"
         this.setDetailsPage(project)
+        this.setEditModal(project)
     })
+    
+    //AÑADIMOS project.ui, DIV HTML CARD DEL PROYECTO, DENTRO DEL DIV container DEL ProjectsManager. AÑADE LA CARTA DEL PROYECTO A LA PAGINA.
     this.ui.append(project.ui)
+    //AÑADIMOS AL ATRIBUTO list DE TIPO ARRAY DE ProjectsManager, EL OBJETO project. 
     this.list.push(project)
-    return project
+    //DEVUELVE EL OBJETO project
+    return project    
 }
+
 
 private setDetailsPage(project: Project) {
     const detailsPage = document.getElementById("project-details")
@@ -39,15 +60,41 @@ private setDetailsPage(project: Project) {
         const name = detailsPage.querySelector("[data-project-info='name']")
         const description = detailsPage.querySelector("[data-project-info='description']")
         const status = detailsPage.querySelector("[data-project-info='status']")
+        const cost = detailsPage.querySelector("[data-project-info='cost']")
+        const userRole = detailsPage.querySelector("[data-project-info='userRole']")
+        const finishDate = detailsPage.querySelector("[data-project-info='finishDate']")
 
+        //COGE LAS PROPIEDADES DEL project PASADO A LA FUNCION, Y LAS INYECTA EN LOS ELEMENTOS HTML, VIA EL "data-project-info"
         if (nameTitle) { nameTitle.textContent = project.name }
         if (descriptionTitle) { descriptionTitle.textContent = project.description }
         if (name) { name.textContent = project.name }
         if (description) { description.textContent = project.description }
         if (status) { status.textContent = project.status }
-       
+        if (cost) { cost.textContent = project.cost.toString() }
+        if (userRole) { userRole.textContent = project.userRole }
+        if (finishDate) { finishDate.textContent = project.finishDate.toDateString() }
 }
 
+public setEditModal(project: Project){
+    const editProjectName = document.getElementById("edit-project-name") as HTMLInputElement;
+    const editProjectDescription = document.getElementById("edit-project-description") as HTMLInputElement;
+    const editProjectCost= document.getElementById("edit-project-cost") as HTMLInputElement;
+    const editProjectRole = document.getElementById("edit-project-role") as HTMLInputElement;
+    const editProjectStatus = document.getElementById("edit-project-status") as HTMLInputElement;
+    const editProjectDate = document.getElementById("edit-project-date") as HTMLInputElement;
+
+    console.log(editProjectName)
+    if (editProjectName) { editProjectName.value = project.name }
+    if (editProjectDescription) { editProjectDescription.value = project.description }
+    
+    //ARREGLAR PARA DATE Y COST, PROBLEMA POR EL TIPO DE DATO
+    console.log(project.cost)
+    if (editProjectCost) { editProjectCost.value = project.cost.toString()  }
+    if (editProjectRole) { editProjectRole.value = project.userRole }
+    if (editProjectStatus) { editProjectStatus.value = project.status }
+    //if (editProjectDate) { editProjectDate.value = project.finishDate }
+    
+}   
 
 
 
