@@ -25,6 +25,7 @@ export class Project implements IProject {
     ui: HTMLDivElement
     progress: number = 0
     id: string
+    acronynColor: string
 
 
 // (data: IProject) YA DEFINE TODOS LOS TIPOS DE DATOS NECESARIOS DESDE LA INTERFAZ
@@ -38,6 +39,7 @@ export class Project implements IProject {
             this[key] = data[key]
         }
         //LLAMAMOS AL METODO setUI PARA CREAR ACONTINUACION LA UI (CARD) DEL PROYECTO CREADO.
+        this.acronynColor = getRandomColor()
         this.setUI()
     }
 
@@ -55,7 +57,7 @@ export class Project implements IProject {
         this.ui.innerHTML = 
         `<div class="project-card">
             <div class="card-header">
-                <p style="background-color: ${getRandomColor()}; padding: 10px; border-radius: 8px; aspect-ratio: 1;">${this.name.slice(0,2).toUpperCase()}</p>
+                <p style="background-color: ${this.acronynColor}; padding: 10px; border-radius: 8px; aspect-ratio: 1;">${this.name.slice(0,2).toUpperCase()}</p>
                 <div>
                     <h5>${this.name}</h5>
                     <p>${this.description}</p>
@@ -72,7 +74,7 @@ export class Project implements IProject {
                 </div>
                 <div class="card-property">
                     <p style="color: #969696;">Cost</p>
-                    <p>$${this.cost}</p>
+                    <p>${this.cost}€</p>
                 </div>
                 <div class="card-property">
                     <p style="color: #969696;">Estimated Progress</p>

@@ -74,8 +74,18 @@ if (projectForm && projectForm instanceof HTMLFormElement ) {
         //VALIDA EL CONTENIDO DE LA FECHA, Y DA VALOR POR DEFECTO SI ESTA VACIO.
         const valDate = (document.getElementById("finishDate") as HTMLInputElement);
         if (!valDate.value){
-            (document.getElementById("finishDate") as HTMLInputElement).value = setDateToday()
+            valDate.value = setDateToday()
         }
+
+        //VALIDA EL CONTENIDO DEL COST, Y DA VALOR POR DEFECTO SI ESTA VACIO.
+        const valCost = (document.getElementById("new-project-cost") as HTMLInputElement);
+        console.log(valCost.value)
+        if (!valCost.value) {
+            alert("paco")
+            valCost.value = "0";
+        }
+
+
 
         const formData = new FormData(projectForm)
         //CON formData.get("key") COGEMOS LOS VALORES. PONEMOS "as" PARA FORZAR EL TIPO DE DATO DESDE EL formData.get

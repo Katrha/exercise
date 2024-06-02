@@ -85,7 +85,7 @@
                                     style="padding-right: 10px; padding-top: 0px">euro</span>
                                 <label>Cost</label>
                             </div>
-                            <input name="cost" type="number" placeholder="What is the cost of the project?">
+                            <input id="new-project-cost" name="cost" type="number" placeholder="What is the cost of the project?">
                         </div>
 
                         <!-- ROLE -->
@@ -154,7 +154,6 @@
             <div id="project-list">
             </div>
         </div>
-
 
 
         <!-- PAGINA DE DETALLES DE PROYECTO -->
@@ -259,10 +258,8 @@
 
                     <!-- CARD PRINCIPAL DEL PROYECTO -->
                     <div class="dashboard-card" style="padding: 30px 0;">
-                        <div
-                            style="display: flex; justify-content: space-between; align-items: center; padding: 0px 30px; margin-bottom: 30px;">
-                            <p data-project-info="acronym"
-                                style="font-size: 20px; background-color:brown; aspect-ratio: 1; border-radius: 100%; padding: 12px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0px 30px; margin-bottom: 30px;">
+                            <p id="acronym" data-project-info="acronym" style="font-size: 20px; background-color:brown; aspect-ratio: 1; border-radius: 100%; padding: 12px;">
                                 HC</p>
                             <button id="edit-project-btn" class="btn-secondary">
                                 <p style="width: 100%;">Edit</p>

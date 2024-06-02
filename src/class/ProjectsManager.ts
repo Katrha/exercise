@@ -57,6 +57,10 @@ private setDetailsPage(project: Project) {
     if (!detailsPage) { return }
         const nameTitle= detailsPage.querySelector("[data-project-info='name-title']")
         const descriptionTitle = detailsPage.querySelector("[data-project-info='description-title']")
+        
+        const acronym = document.getElementById("acronym")
+
+
         const name = detailsPage.querySelector("[data-project-info='name']")
         const description = detailsPage.querySelector("[data-project-info='description']")
         const status = detailsPage.querySelector("[data-project-info='status']")
@@ -67,6 +71,9 @@ private setDetailsPage(project: Project) {
         //COGE LAS PROPIEDADES DEL project PASADO A LA FUNCION, Y LAS INYECTA EN LOS ELEMENTOS HTML, VIA EL "data-project-info"
         if (nameTitle) { nameTitle.textContent = project.name }
         if (descriptionTitle) { descriptionTitle.textContent = project.description }
+
+        if (acronym) { acronym.style.backgroundColor = project.acronynColor; acronym.textContent = project.name.slice(0,2).toUpperCase() }
+
         if (name) { name.textContent = project.name }
         if (description) { description.textContent = project.description }
         if (status) { status.textContent = project.status }
