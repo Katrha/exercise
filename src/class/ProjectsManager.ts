@@ -3,6 +3,7 @@ import { IProject, Project } from "./Project"
 export class ProjectsManager {
     list: Project [] = []
     ui: HTMLElement
+    originalProject: Project
 
     constructor(container: HTMLElement) {
         this.ui = container
@@ -41,6 +42,7 @@ newProject(data: IProject){
         detailsPage.style.display = "flex"
         this.setDetailsPage(project)
         this.setEditModal(project)
+        this.originalProject = project
     })
     
     //AÑADIMOS project.ui, DIV HTML CARD DEL PROYECTO, DENTRO DEL DIV container DEL ProjectsManager. AÑADE LA CARTA DEL PROYECTO A LA PAGINA.
@@ -57,9 +59,8 @@ private setDetailsPage(project: Project) {
     if (!detailsPage) { return }
         const nameTitle= detailsPage.querySelector("[data-project-info='name-title']")
         const descriptionTitle = detailsPage.querySelector("[data-project-info='description-title']")
-        
-        const acronym = document.getElementById("acronym")
 
+        const acronym = document.getElementById("acronym")
 
         const name = detailsPage.querySelector("[data-project-info='name']")
         const description = detailsPage.querySelector("[data-project-info='description']")
@@ -67,6 +68,8 @@ private setDetailsPage(project: Project) {
         const cost = detailsPage.querySelector("[data-project-info='cost']")
         const userRole = detailsPage.querySelector("[data-project-info='userRole']")
         const finishDate = detailsPage.querySelector("[data-project-info='finishDate']")
+
+        const progress = document.getElementById("progress-bar")
 
         //COGE LAS PROPIEDADES DEL project PASADO A LA FUNCION, Y LAS INYECTA EN LOS ELEMENTOS HTML, VIA EL "data-project-info"
         if (nameTitle) { nameTitle.textContent = project.name }
@@ -80,6 +83,9 @@ private setDetailsPage(project: Project) {
         if (cost) { cost.textContent = project.cost.toString() }
         if (userRole) { userRole.textContent = project.userRole }
         if (finishDate) { finishDate.textContent = project.finishDate.toDateString() }
+
+        if (progress) { progress.style.width = project.progress.toString() +"%"; progress.textContent=project.progress.toString()+"%"}
+
 }
 
 public setEditModal(project: Project){
@@ -88,20 +94,29 @@ public setEditModal(project: Project){
     const editProjectCost= document.getElementById("edit-project-cost") as HTMLInputElement;
     const editProjectRole = document.getElementById("edit-project-role") as HTMLInputElement;
     const editProjectStatus = document.getElementById("edit-project-status") as HTMLInputElement;
-    const editProjectDate = document.getElementById("edit-project-date") as HTMLInputElement;
-
-    console.log(editProjectName)
+    const editProjectDate = document.getElementById("edit-finish-date") as HTMLInputElement;
+    
     if (editProjectName) { editProjectName.value = project.name }
     if (editProjectDescription) { editProjectDescription.value = project.description }
     
-    //ARREGLAR PARA DATE Y COST, PROBLEMA POR EL TIPO DE DATO
-    console.log(project.cost)
     if (editProjectCost) { editProjectCost.value = project.cost.toString()  }
     if (editProjectRole) { editProjectRole.value = project.userRole }
     if (editProjectStatus) { editProjectStatus.value = project.status }
-    //if (editProjectDate) { editProjectDate.value = project.finishDate }
-    
+
+    if (editProjectDate) { editProjectDate.value = project.finishDate.toISOString().slice(0,10) }
+
 }   
+
+//FUSIONA EL PROJECT1 Y EL 2. EL PROJECT 2 SERA EL EDITADO, Y MANTENDRA LOS CAMBIOS HECHOS VIA EL edit-project-form. INVESTIGAR COMO MANTENER EL ID DEL PROYECTO 1.
+public mergeProjects(project1: Project, project2: Project){
+    //OBJECT SPREADIN NO CREA INSTANCIA CON LA CLASE PROJECT, HAY QUE INSTANCIAR CON LOS DATO NUEVOS.
+    const mergedData = {...project1,...project2}
+    const mergedProject = new Project(mergedData)
+    return mergedProject 
+}
+
+//REMPLAZA PROYECTOS SEGUN SUS ID
+
 
 
 

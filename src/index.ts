@@ -1,4 +1,4 @@
-import {  IProject, ProjectStatus, UserRole } from "./class/Project"
+import {  IProject, Project, ProjectStatus, UserRole } from "./class/Project"
 import { ProjectsManager } from "./class/ProjectsManager"
 
 
@@ -79,9 +79,7 @@ if (projectForm && projectForm instanceof HTMLFormElement ) {
 
         //VALIDA EL CONTENIDO DEL COST, Y DA VALOR POR DEFECTO SI ESTA VACIO.
         const valCost = (document.getElementById("new-project-cost") as HTMLInputElement);
-        console.log(valCost.value)
         if (!valCost.value) {
-            alert("paco")
             valCost.value = "0";
         }
 
@@ -136,14 +134,9 @@ if (projectForm && projectForm instanceof HTMLFormElement ) {
    // BOTON DEL FORMULARIO EDIT PROJECT. 
 const editProjectInfobtn = document.getElementById("edit-project-btn")
 if (editProjectInfobtn) {
-    editProjectInfobtn.addEventListener("click", (e) => {
-        
-        //ANTES DE ENSEÑAR EL MODAL, TENEMOS QUE RELLENAR LOS INPUTS CON LOS DATOS DEL PROYECTO.
-        
-        
-        
-        
+    editProjectInfobtn.addEventListener("click", (e) => {  
         showModal("edit-project-modal")
+
     })
 }
 
@@ -151,8 +144,7 @@ if (editProjectInfobtn) {
 // EDIT PROJECT INFO
 const editprojectForm = document.getElementById("edit-project-form")
 if (editprojectForm && editprojectForm instanceof HTMLFormElement ){
-
-    // BOTON DE CANCELAR DEL FORMULARIO NEW PROJECT. 
+    // BOTON DE CANCELAR DEL FORMULARIO EDIT PROJECT. 
     const cancelEditBtn = document.getElementById("reset-edit-project-info-btn")
     if (cancelEditBtn){
         cancelEditBtn.addEventListener("click", () => {
@@ -160,8 +152,53 @@ if (editprojectForm && editprojectForm instanceof HTMLFormElement ){
             toggleModal("edit-project-modal")
         })
     }  
-}    
 
+    editprojectForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const editformData = new FormData(editprojectForm)
+
+        //CON formData.get("key") COGEMOS LOS VALORES. PONEMOS "as" PARA FORZAR EL TIPO DE DATO DESDE EL formData.get
+        const editedProjectData: IProject = {
+            name: editformData.get("name") as string,
+            description: editformData.get("description") as string,
+            // DOBLE TIPO DE DATOS PARA EVITAR ERROR
+            cost: editformData.get("cost") as number | string,
+            userRole: editformData.get("userRole") as UserRole,
+            status: editformData.get("status")as ProjectStatus,       
+            finishDate: new Date(editformData.get("finishDate") as string)
+        }
+        // SE INICIA LA CREACION DEL PROYECTO-EDITADO LLAMADO A LA FUNCION newProject de ProjectsManager
+        try {
+            const editedProject = projectsManager.newProject(editedProjectData)
+            //NO RESETEAMOS EL FORMULARIO DE EDIT. POR SI HAY QUE VOLVER A EDITAR.
+            //editprojectForm.reset()
+            toggleModal("edit-project-modal")
+            console.log("ORIGINAL PROJECT" , projectsManager.originalProject)
+            console.log("EDITED PROJECT" , editedProject)
+            const mergedProject = projectsManager.mergeProjects( projectsManager.originalProject, editedProject)
+            console.log("MERGED PROJECT" , mergedProject)
+
+
+            //TENEMOS QUE REEMPLAZAR EL ORIGINAL POR EL MERGED: merged tiene que tener igual ID. Eliminar el original
+            const originalId = projectsManager.originalProject.id
+            console.log(originalId)
+            // PORQUE NO SE METE EL ID ORIGINAL EN EL NUEVO????????
+            projectsManager.deleteProject(originalId)
+            mergedProject.id = originalId
+            console.log("DESPUES",projectsManager.list)
+            
+
+            // COGE LOS "throw error" DE LA FUNCION newProject de ProjectsManager Y LOS METE COMO "err"
+        } catch (err) {
+            //alert(err)
+            //"err" ES UN ELEMENTO HTML LABEL. AQUI LE INYECTA EL TEXTO DE err Y SACA EL MODAL "error-modal" QUE LO CONTIENE.
+            const message = document.getElementById("err") as HTMLElement
+            message.textContent = err
+            toggleModal("error-modal")
+        }
+    }
+)}
 
 
 
