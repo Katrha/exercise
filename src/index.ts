@@ -168,39 +168,23 @@ if (editprojectForm && editprojectForm instanceof HTMLFormElement ){
             status: editformData.get("status")as ProjectStatus,       
             finishDate: new Date(editformData.get("finishDate") as string)
         }
-        // SE INICIA LA CREACION DEL PROYECTO-EDITADO LLAMADO A LA FUNCION newProject de ProjectsManager
+        // CAMBIAR VALORES DEL PROYECTO EN CUESTION DIRECTAMENTE. FUNCIONA. HABRIA QUE IMPLEMENTAR VALIDACIONES DE LOS DATOS. ( <4 CHARACTS, 2 PROYECTOS MISMO NOMBREN NO...)
         try {
-            const editedProject = projectsManager.newProject(editedProjectData)
-            //NO RESETEAMOS EL FORMULARIO DE EDIT. POR SI HAY QUE VOLVER A EDITAR.
-            //editprojectForm.reset()
+            projectsManager.validationNameLength(editedProjectData.name,5)
+            projectsManager.validationNameInUse(editedProjectData.name)
+            for (const key in editedProjectData){
+                projectsManager.editingProject[key]=editedProjectData[key]
+            }
+            console.log(projectsManager.list)
             toggleModal("edit-project-modal")
-            console.log("ORIGINAL PROJECT" , projectsManager.originalProject)
-            console.log("EDITED PROJECT" , editedProject)
-            const mergedProject = projectsManager.mergeProjects( projectsManager.originalProject, editedProject)
-            console.log("MERGED PROJECT" , mergedProject)
-
-
-            //TENEMOS QUE REEMPLAZAR EL ORIGINAL POR EL MERGED: merged tiene que tener igual ID. Eliminar el original
-            const originalId = projectsManager.originalProject.id
-            console.log(originalId)
-            // PORQUE NO SE METE EL ID ORIGINAL EN EL NUEVO????????
-            projectsManager.deleteProject(originalId)
-            mergedProject.id = originalId
-            console.log("DESPUES",projectsManager.list)
-            
-
-            // COGE LOS "throw error" DE LA FUNCION newProject de ProjectsManager Y LOS METE COMO "err"
         } catch (err) {
-            //alert(err)
-            //"err" ES UN ELEMENTO HTML LABEL. AQUI LE INYECTA EL TEXTO DE err Y SACA EL MODAL "error-modal" QUE LO CONTIENE.
-            const message = document.getElementById("err") as HTMLElement
+            //IGUAL QUE EL ERROR MODAL DE NEW PROJECT. CADA MODAL PARTENECE A UNA PAGINA.
+            const message = document.getElementById("edit-err") as HTMLElement
             message.textContent = err
-            toggleModal("error-modal")
+            toggleModal("edit-error-modal")
         }
     }
 )}
-
-
 
 
 

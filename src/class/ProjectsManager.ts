@@ -3,7 +3,7 @@ import { IProject, Project } from "./Project"
 export class ProjectsManager {
     list: Project [] = []
     ui: HTMLElement
-    originalProject: Project
+    editingProject: Project
 
     constructor(container: HTMLElement) {
         this.ui = container
@@ -12,21 +12,27 @@ export class ProjectsManager {
 //FUNCION QUE CREA EL PROYECTO NUEVO. INTERFACE PARA ASEGURARNOS TIPOS DE DATOS CORRECTOS.
 newProject(data: IProject){
 
+    this.validationNameInUse(data.name)
+    this.validationNameLength(data.name,5)
+
+//CONFIRMAR CAMBIOS EN VALIDACION PARA QUITAR ESTOS COMENTARIOS
     // projectNames ES EL RESULTADO DE APLICAR LA FUNCION "return project.name" A TODOS LOS ELEMENTOS DE LIST.projectVariable SOLO SIRVE DE MANERA LOCAL A ESTA FUNCION.
-    const projectNames = this.list.map((projectVariable) => {      
-            return projectVariable.name 
-    })
+    //const projectNames = this.list.map((projectVariable) => {      
+            //return projectVariable.name 
+    //})
     // SI "data.name" SE ENCUENTRA EN projectNames, DA ERROR.
-    const nameInUse = projectNames.includes(data.name)
-    if (nameInUse) {
-        throw new Error(`"${data.name}" already exists`)
-    }
+    //const nameInUse = projectNames.includes(data.name)
+   // if (nameInUse) {
+    //    throw new Error(`"${data.name}" already exists`)
+    //}
+
+
 
     //VALIDACION PARA CONFIRMAR QUE NAME DEL PROYECTO TIENE MAS DE 4 CARACTERES.
-    const validationName = data.name
-    if (validationName && validationName.length <5){
-        throw new Error(`"${data.name}" is not a valid Project name cause it is too short. Please enter a new Project name at least 5 character long.`)
-    }
+    //const validationName = data.name
+    //if (validationName && validationName.length <5){
+     //   throw new Error(`"${data.name}" is not a valid Project name cause it is too short. Please enter a new Project name at least 5 character long.`)
+    //}
 
     // CREA UN OBJETO Project (DEFINIDO EN Project.ts) CON LA INFO PASADA EN COMO data.
     const project = new Project(data)
@@ -42,7 +48,7 @@ newProject(data: IProject){
         detailsPage.style.display = "flex"
         this.setDetailsPage(project)
         this.setEditModal(project)
-        this.originalProject = project
+        this.editingProject = project
     })
     
     //AÑADIMOS project.ui, DIV HTML CARD DEL PROYECTO, DENTRO DEL DIV container DEL ProjectsManager. AÑADE LA CARTA DEL PROYECTO A LA PAGINA.
@@ -107,18 +113,22 @@ public setEditModal(project: Project){
 
 }   
 
-//FUSIONA EL PROJECT1 Y EL 2. EL PROJECT 2 SERA EL EDITADO, Y MANTENDRA LOS CAMBIOS HECHOS VIA EL edit-project-form. INVESTIGAR COMO MANTENER EL ID DEL PROYECTO 1.
-public mergeProjects(project1: Project, project2: Project){
-    //OBJECT SPREADIN NO CREA INSTANCIA CON LA CLASE PROJECT, HAY QUE INSTANCIAR CON LOS DATO NUEVOS.
-    const mergedData = {...project1,...project2}
-    const mergedProject = new Project(mergedData)
-    return mergedProject 
+public validationNameLength(name: string, length: number ){
+const validationName = name
+if (name.length <length){
+    throw new Error(`"${name}" is not a valid Project name cause it is too short. Please enter a new Project name at least 5 character long.`)
+    }
 }
 
-//REMPLAZA PROYECTOS SEGUN SUS ID
-
-
-
+public validationNameInUse(name: string){
+    // projectNames ES EL RESULTADO DE APLICAR LA FUNCION "return project.name" A TODOS LOS ELEMENTOS DE LIST.projectVariable SOLO SIRVE DE MANERA LOCAL A ESTA FUNCION.
+    const projectNames = this.list.map((projectVariable) => { return projectVariable.name  })
+    // SI "data.name" SE ENCUENTRA EN projectNames, DA ERROR.
+    const nameInUse = projectNames.includes(name)
+    if (nameInUse) {
+    throw new Error(`"${name}" already exists`)
+    }
+}
 
 getProject(id: string) {
     const project = this.list.find((project) => {
@@ -126,7 +136,6 @@ getProject(id: string) {
     })
 return project
 }
-
 
 deleteProject(id: string) {
     const project = this.getProject(id)
@@ -138,14 +147,12 @@ deleteProject(id: string) {
 this.list = remaining
 }
 
-
 getProjecbyName(name: string) {
     const project = this.list.find((project) => {
         return project.name === name
     })
 return project
 }
-
 
 exportToJSON(filename: string = "projects") {
     function replacer(key, value){
