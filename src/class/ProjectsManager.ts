@@ -60,7 +60,7 @@ newProject(data: IProject){
 }
 
 
-private setDetailsPage(project: Project) {
+public setDetailsPage(project: Project) {
     const detailsPage = document.getElementById("project-details")
     if (!detailsPage) { return }
         const nameTitle= detailsPage.querySelector("[data-project-info='name-title']")

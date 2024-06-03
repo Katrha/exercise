@@ -168,13 +168,14 @@ if (editprojectForm && editprojectForm instanceof HTMLFormElement ){
             status: editformData.get("status")as ProjectStatus,       
             finishDate: new Date(editformData.get("finishDate") as string)
         }
-        // CAMBIAR VALORES DEL PROYECTO EN CUESTION DIRECTAMENTE. FUNCIONA. HABRIA QUE IMPLEMENTAR VALIDACIONES DE LOS DATOS. ( <4 CHARACTS, 2 PROYECTOS MISMO NOMBREN NO...)
+        // CAMBIAR VALORES DEL PROYECTO EN CUESTION DIRECTAMENTE. FUNCIONA. CAMBIAR LA PROJECT CARD EN LA PAGINA DE PROJECTOS.
         try {
             projectsManager.validationNameLength(editedProjectData.name,5)
             projectsManager.validationNameInUse(editedProjectData.name)
             for (const key in editedProjectData){
                 projectsManager.editingProject[key]=editedProjectData[key]
             }
+            projectsManager.setDetailsPage(projectsManager.editingProject)
             console.log(projectsManager.list)
             toggleModal("edit-project-modal")
         } catch (err) {

@@ -8,6 +8,7 @@
 
 Allow the user to update the project information from the details page.
     ACTUALIZAR LA PROJECT CARD EN LA PAGINA DE PROECJTOS AL EDITAR EL PROYECTO.
+    POSIBILIDAD EL EDITAR EL PROGRESO DEL PROYECTO.
 
 Let the user create ToDos by using the corresponding button. Store the ToDo information inside the projects data.
 
