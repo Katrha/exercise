@@ -6,11 +6,10 @@
 
 -When creating the project based on the form information, give a default date in case user doesn’t specify one.
 
-Allow the user to update the project information from the details page.
-    ACTUALIZAR LA PROJECT CARD EN LA PAGINA DE PROECJTOS AL EDITAR EL PROYECTO.
-    POSIBILIDAD EL EDITAR EL PROGRESO DEL PROYECTO.
-
-Let the user create ToDos by using the corresponding button. Store the ToDo information inside the projects data.
+-Allow the user to update the project information from the details page.
+    
+  
+NEXT = Let the user create ToDos by using the corresponding button. Store the ToDo information inside the projects data.
 
 While exporting the project information, make sure the ToDos are also exported.
 

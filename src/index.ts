@@ -82,21 +82,18 @@ if (projectForm && projectForm instanceof HTMLFormElement ) {
         if (!valCost.value) {
             valCost.value = "0";
         }
-
-
-
         const formData = new FormData(projectForm)
         //CON formData.get("key") COGEMOS LOS VALORES. PONEMOS "as" PARA FORZAR EL TIPO DE DATO DESDE EL formData.get
         const projectData: IProject = {
             name: formData.get("name") as string,
             description: formData.get("description") as string,
             // DOBLE TIPO DE DATOS PARA EVITAR ERROR
-            cost: formData.get("cost") as number | string,
+            cost: parseFloat(formData.get("cost") as string),
             userRole: formData.get("userRole") as UserRole,
             status: formData.get("status")as ProjectStatus,       
-            finishDate: new Date(formData.get("finishDate") as string)
+            finishDate: new Date(formData.get("finishDate") as string),
+            progress: 0,
         }
-
         // SE INICIA LA CREACION DEL PROYECTO LLAMADO A LA FUNCION newProject de ProjectsManager
         try {
             const project = projectsManager.newProject(projectData)
@@ -111,16 +108,13 @@ if (projectForm && projectForm instanceof HTMLFormElement ) {
             message.textContent = err
             toggleModal("error-modal")
 
-            //INTENTO DE CONTROLAR EL CIERRE DEL error-modal
-            const errorForm = document.getElementById("error-form")
-            if (errorForm){
-                const closeErrorBtn = document.getElementById("close-error-modal")
-                if (closeErrorBtn) {
-                    closeErrorBtn.addEventListener("click", (e) => {
-                        toggleModal("error-modal")})
+            const errorModalForm = document.getElementById("error-form")
+            if (errorModalForm) {
+                errorModalForm.addEventListener("click", (e) => {
+                    e.preventDefault
+                    toggleModal("error-modal")
+                    })
                 }
-            }
-
             }
         }     
     )
@@ -134,58 +128,60 @@ if (projectForm && projectForm instanceof HTMLFormElement ) {
    // BOTON DEL FORMULARIO EDIT PROJECT. 
 const editProjectInfobtn = document.getElementById("edit-project-btn")
 if (editProjectInfobtn) {
-    editProjectInfobtn.addEventListener("click", (e) => {  
-        showModal("edit-project-modal")
-
-    })
+    editProjectInfobtn.addEventListener("click", (e) => {     showModal("edit-project-modal")    })
 }
-
 
 // EDIT PROJECT INFO
 const editprojectForm = document.getElementById("edit-project-form")
-if (editprojectForm && editprojectForm instanceof HTMLFormElement ){
+if (editprojectForm && editprojectForm instanceof HTMLFormElement) {
     // BOTON DE CANCELAR DEL FORMULARIO EDIT PROJECT. 
-    const cancelEditBtn = document.getElementById("reset-edit-project-info-btn")
-    if (cancelEditBtn){
-        cancelEditBtn.addEventListener("click", () => {
-            editprojectForm.reset()
-            toggleModal("edit-project-modal")
+    const cancelEditBtn = document.getElementById("cancel-edit-project-info-btn")
+    if (cancelEditBtn) {
+        cancelEditBtn.addEventListener("click", () => {toggleModal("edit-project-modal")
         })
-    }  
-
+    }
     editprojectForm.addEventListener("submit", (e) => {
         e.preventDefault();
-
         const editformData = new FormData(editprojectForm)
-
         //CON formData.get("key") COGEMOS LOS VALORES. PONEMOS "as" PARA FORZAR EL TIPO DE DATO DESDE EL formData.get
         const editedProjectData: IProject = {
             name: editformData.get("name") as string,
             description: editformData.get("description") as string,
             // DOBLE TIPO DE DATOS PARA EVITAR ERROR
-            cost: editformData.get("cost") as number | string,
+            cost: parseFloat(editformData.get("cost") as string),
             userRole: editformData.get("userRole") as UserRole,
-            status: editformData.get("status")as ProjectStatus,       
-            finishDate: new Date(editformData.get("finishDate") as string)
+            status: editformData.get("status") as ProjectStatus,
+            finishDate: new Date(editformData.get("finishDate") as string),
+            progress: parseFloat(editformData.get("progress") as string),
         }
         // CAMBIAR VALORES DEL PROYECTO EN CUESTION DIRECTAMENTE. FUNCIONA. CAMBIAR LA PROJECT CARD EN LA PAGINA DE PROJECTOS.
         try {
-            projectsManager.validationNameLength(editedProjectData.name,5)
-            projectsManager.validationNameInUse(editedProjectData.name)
-            for (const key in editedProjectData){
-                projectsManager.editingProject[key]=editedProjectData[key]
+            projectsManager.validationNameLength(editedProjectData.name, 5)
+            projectsManager.validationNameInUseEdit(projectsManager.editingProject.name, editedProjectData.name)
+            projectsManager.validationProgress(editedProjectData.progress)
+            for (const key in editedProjectData) {
+                projectsManager.editingProject[key] = editedProjectData[key]
             }
             projectsManager.setDetailsPage(projectsManager.editingProject)
+            projectsManager.editProjectCard(projectsManager.editingProject)
             console.log(projectsManager.list)
             toggleModal("edit-project-modal")
+
         } catch (err) {
             //IGUAL QUE EL ERROR MODAL DE NEW PROJECT. CADA MODAL PARTENECE A UNA PAGINA.
             const message = document.getElementById("edit-err") as HTMLElement
             message.textContent = err
             toggleModal("edit-error-modal")
+            const editErrorModalForm = document.getElementById("edit-error-form")
+            if (editErrorModalForm) {
+                editErrorModalForm.addEventListener("click", (e) => {
+                    e.preventDefault
+                    toggleModal("edit-error-modal")
+                })
+            }
         }
-    }
-)}
+    })
+}
 
 
 

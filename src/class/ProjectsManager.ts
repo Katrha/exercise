@@ -12,6 +12,7 @@ export class ProjectsManager {
 //FUNCION QUE CREA EL PROYECTO NUEVO. INTERFACE PARA ASEGURARNOS TIPOS DE DATOS CORRECTOS.
 newProject(data: IProject){
 
+    
     this.validationNameInUse(data.name)
     this.validationNameLength(data.name,5)
 
@@ -110,13 +111,55 @@ public setEditModal(project: Project){
     if (editProjectStatus) { editProjectStatus.value = project.status }
 
     if (editProjectDate) { editProjectDate.value = project.finishDate.toISOString().slice(0,10) }
-
 }   
+public editProjectCard(project: Project,) {
+    const newInnerDIV =
+        `<div class="project-card">
+        <div class="card-header">
+            <p style="background-color: ${project.acronynColor}; padding: 10px; border-radius: 8px; aspect-ratio: 1;">${project.name.slice(0, 2).toUpperCase()}</p>
+            <div>
+                <h5>${project.name}</h5>
+                <p>${project.description}</p>
+            </div>
+        </div>
+        <div class="card-content">
+            <div class="card-property">
+                <p style="color: #969696;">Status</p>
+                <p>${project.status}</p>
+            </div>
+            <div class="card-property">
+                <p style="color: #969696;">Role</p>
+                <p>${project.userRole}</p>
+            </div>
+            <div class="card-property">
+                <p style="color: #969696;">Cost</p>
+                <p>${project.cost}€</p>
+            </div>
+            <div class="card-property">
+                <p style="color: #969696;">Estimated Progress</p>
+                <p>${project.progress}%</p>
+            </div>
+        </div>
+    </div>`
+    project.ui.innerHTML = newInnerDIV
+}
 
 public validationNameLength(name: string, length: number ){
 const validationName = name
 if (name.length <length){
     throw new Error(`"${name}" is not a valid Project name cause it is too short. Please enter a new Project name at least 5 character long.`)
+    }
+}
+
+
+public validationNameInUseEdit(editingProject: string ="PACO", newProjectName: string,){
+    // projectNames ES EL RESULTADO DE APLICAR LA FUNCION "return project.name" A TODOS LOS ELEMENTOS DE LIST.projectVariable SOLO SIRVE DE MANERA LOCAL A ESTA FUNCION.
+    const projectNames = this.list.map((projectVariable) => { return projectVariable.name  })
+    // SI "data.name" SE ENCUENTRA EN projectNames, DA ERROR.
+        let excludedProjectNames = projectNames.filter(excepcionName => excepcionName !== editingProject);
+        const nameInUse = excludedProjectNames.includes(newProjectName)
+        if (nameInUse) {
+        throw new Error(`"${newProjectName}" already exists`)
     }
 }
 
@@ -129,6 +172,15 @@ public validationNameInUse(name: string){
     throw new Error(`"${name}" already exists`)
     }
 }
+
+public validationProgress(progress: number){
+    if (progress<0 || progress>100){
+        throw new Error ("Progres info must be between 0 and 100")
+    }
+}
+
+
+
 
 getProject(id: string) {
     const project = this.list.find((project) => {

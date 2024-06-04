@@ -6,17 +6,18 @@ export type UserRole = "architect" | "engineer" | "developer"
 export interface IProject {
     name: string
     description: string
-    cost: number | string
+    cost: number 
     status: ProjectStatus
     userRole: UserRole
     finishDate: Date
+    progress: number
 }
 
 // implments OBLIGA A QUE CADA VEZ QUE HAGAMOS UN OBJETO PROJECT, TENGA TODOS LAS PROPIEDADES DE LA INTERFACE
 export class Project implements IProject {
     name: string
     description: string
-    cost: number | string
+    cost: number 
     status: "pending" | "active" | "finished"  
     userRole: "architect" | "engineer" | "developer"
     finishDate: Date

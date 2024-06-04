@@ -45,7 +45,7 @@
                         <label id="err"></label>
                     </div>
                     <div class="form-button-container">
-                        <button id="close-error-modal">Accept</button>
+                        <button id="close-error-modal" type="button" >Accept</button>
                     </div>
                 </form>
             </dialog>
@@ -175,7 +175,7 @@
                         <label id="edit-err"></label>
                     </div>
                     <div class="form-button-container">
-                        <button id="edit-close-error-modal">Accept</button>
+                        <button id="edit-close-error-modal" type="button">Accept</button>
                     </div>
                 </form>
             </dialog>
@@ -244,6 +244,16 @@
                             </select>
                         </div>
 
+                        <!-- PROGRESS -->
+                        <div class="form-field-container">
+                            <div class="form-field-title">
+                                <span class="material-symbols-outlined"
+                                    style="padding-right: 10px; padding-top: 0px">percent</span>
+                                <label>Progress</label>
+                            </div>
+                            <input id="edit-project-progress" name="progress" type="number" min="0" max="100">
+                        </div>                        
+
                         <!-- FINISH DATE -->
                         <div class="form-field-container">
                             <div class="form-field-title">
@@ -257,7 +267,7 @@
                     </div>
                     <!-- BOTONES DEL MODAL EDIT PROJECT -->
                     <div class="form-button-container">
-                        <button id="reset-edit-project-info-btn" style="background-color: transparent" type="reset">Cancel</button>
+                        <button id="cancel-edit-project-info-btn" style="background-color: transparent" type="button">Cancel</button>
                         <!-- EL TYPE SUBMIT NO HACE FALTA PONERLO. POR DEFECTO ES SUBMIT, EN EL EJERCICIO.-->
                         <button type="submit">Accept</button>
                     </div>
