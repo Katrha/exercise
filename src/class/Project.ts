@@ -27,7 +27,7 @@ export class Project implements IProject {
     progress: number = 0
     id: string
     acronynColor: string
-
+    todo: []
 
 // (data: IProject) YA DEFINE TODOS LOS TIPOS DE DATOS NECESARIOS DESDE LA INTERFAZ
     constructor(data: IProject) {
