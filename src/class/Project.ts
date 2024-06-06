@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 export type ProjectStatus = "pending" | "active" | "finished"  
 export type UserRole = "architect" | "engineer" | "developer"
-
+import { Todo } from './ToDo'
 
 export interface IProject {
     name: string
@@ -27,7 +27,7 @@ export class Project implements IProject {
     progress: number = 0
     id: string
     acronynColor: string
-    todo: []
+    todo: Todo[]
 
 // (data: IProject) YA DEFINE TODOS LOS TIPOS DE DATOS NECESARIOS DESDE LA INTERFAZ
     constructor(data: IProject) {
@@ -40,6 +40,7 @@ export class Project implements IProject {
             this[key] = data[key]
         }
         //LLAMAMOS AL METODO setUI PARA CREAR ACONTINUACION LA UI (CARD) DEL PROYECTO CREADO.
+        this.todo = []
         this.acronynColor = getRandomColor()
         this.setUI()
     }

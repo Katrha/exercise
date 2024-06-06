@@ -11,6 +11,17 @@
   
 NEXT = Let the user create ToDos by using the corresponding button. Store the ToDo information inside the projects data.
 
+HACER EL MODAL DE CREACION DE ToDos
+SACARLO AL HACER CLIC EN SIMBLOG +
+CREAR TODO AL HACER CLIC EN EL MODAL DE CREACION. AÑADIRLO AL PROJECTO (EDITING PROJECT)
+CREAR FUNCION PARA ACTUALIZAR LISTA DE TODO - ELEMENTOS HTML
+FUNCIONA. HACER VALIDACIONES
+
+
+
+
+
+
 While exporting the project information, make sure the ToDos are also exported.
 
 Update project information if a project imported from JSON already exists.

@@ -1,18 +1,20 @@
 import { IProject, Project } from "./Project"
+import { ITodo, Todo } from "./ToDo"
 
 export class ProjectsManager {
     list: Project [] = []
     ui: HTMLElement
+    todoUi: HTMLElement
     editingProject: Project
 
-    constructor(container: HTMLElement) {
+    constructor(container: HTMLElement, todoContainer: HTMLElement) {
         this.ui = container
+        this.todoUi = todoContainer
     }
 
 //FUNCION QUE CREA EL PROYECTO NUEVO. INTERFACE PARA ASEGURARNOS TIPOS DE DATOS CORRECTOS.
 newProject(data: IProject){
 
-    
     this.validationNameInUse(data.name)
     this.validationNameLength(data.name,5)
 
@@ -26,18 +28,13 @@ newProject(data: IProject){
    // if (nameInUse) {
     //    throw new Error(`"${data.name}" already exists`)
     //}
-
-
-
     //VALIDACION PARA CONFIRMAR QUE NAME DEL PROYECTO TIENE MAS DE 4 CARACTERES.
     //const validationName = data.name
     //if (validationName && validationName.length <5){
      //   throw new Error(`"${data.name}" is not a valid Project name cause it is too short. Please enter a new Project name at least 5 character long.`)
     //}
-
     // CREA UN OBJETO Project (DEFINIDO EN Project.ts) CON LA INFO PASADA EN COMO data.
     const project = new Project(data)
-
     // ESTE EVENTO OCURRE CUANDO CLICAMOS EN EL CONTAINER DEL PROYECTO. DEFNIDO COMO project.ui.
     project.ui.addEventListener("click", () => {
         // ASIGNAMOS VARIABLES CON ELEMENTOS HTML 
@@ -49,16 +46,33 @@ newProject(data: IProject){
         detailsPage.style.display = "flex"
         this.setDetailsPage(project)
         this.setEditModal(project)
+        //cCREAR LA FUNCION 
+        //this.setTodoList(project)
         this.editingProject = project
     })
     
-    //AÑADIMOS project.ui, DIV HTML CARD DEL PROYECTO, DENTRO DEL DIV container DEL ProjectsManager. AÑADE LA CARTA DEL PROYECTO A LA PAGINA.
+    //AÑADIMOS project.ui, DIV HTML CARD DEL PROYECTO, DENTRO DEL ui de  ProjectsManager. AÑADE LA CARTA DEL PROYECTO A LA PAGINA.
     this.ui.append(project.ui)
     //AÑADIMOS AL ATRIBUTO list DE TIPO ARRAY DE ProjectsManager, EL OBJETO project. 
     this.list.push(project)
     //DEVUELVE EL OBJETO project
     return project    
 }
+
+
+newTodo (data: ITodo) { 
+    const todo = new Todo(data)
+    let todoList = this.editingProject.todo
+    todoList.push(todo)
+    console.log(this.editingProject)
+
+    this.todoUi.append(todo.ui)
+}
+
+
+
+
+
 
 
 public setDetailsPage(project: Project) {
@@ -93,7 +107,24 @@ public setDetailsPage(project: Project) {
 
         if (progress) { progress.style.width = project.progress.toString() +"%"; progress.textContent=project.progress.toString()+"%"}
 
+        // HABRIA QUE MOSTRAR SOLO LOS ELEMENTOS UI DE LOS TODO DEL PROJECTO.
+
+        const todoListDiv = document.getElementById("todo-list") as HTMLDivElement
+        todoListDiv.innerHTML =""
+        const todoElements = project.todo 
+        todoElements.forEach(element => {
+            todoListDiv.append(element.ui);
+        });
+
+
+
+
+
+
+
 }
+
+//HACER FUNCION PARA MOSTRAR LOS ELEMENTOS HTML TODO
 
 public setEditModal(project: Project){
     const editProjectName = document.getElementById("edit-project-name") as HTMLInputElement;
@@ -151,7 +182,6 @@ if (name.length <length){
     }
 }
 
-
 public validationNameInUseEdit(editingProject: string ="PACO", newProjectName: string,){
     // projectNames ES EL RESULTADO DE APLICAR LA FUNCION "return project.name" A TODOS LOS ELEMENTOS DE LIST.projectVariable SOLO SIRVE DE MANERA LOCAL A ESTA FUNCION.
     const projectNames = this.list.map((projectVariable) => { return projectVariable.name  })
@@ -178,8 +208,6 @@ public validationProgress(progress: number){
         throw new Error ("Progres info must be between 0 and 100")
     }
 }
-
-
 
 
 getProject(id: string) {

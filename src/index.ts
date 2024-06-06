@@ -1,5 +1,6 @@
 import {  IProject, Project, ProjectStatus, UserRole } from "./class/Project"
 import { ProjectsManager } from "./class/ProjectsManager"
+import { ITodo, TodoStatus } from "./class/ToDo"
 
 
 // DEVUELVE FECHA DE HOY EN STRING
@@ -42,8 +43,10 @@ function toggleModal (id: string){
 }
 // COGEMOS EL ELEMENTO HTML "project-list", ASIGNAMOS VARIABLE, Y CREAMOS OBJ. ProjectsManager PASANDO ESA VARIABLE.
 // EN EL CONSTRUCTOR SE TRATA COMO EL "container" Y ASI SE VISUALIZA. DENTRO DE AQUI SE METERAN LAS PROJECT CARDS.
+// USAMOS ESTA ESTRUCTURA PARA LAS TODO CARD
 const projectsListUI = document.getElementById("project-list") as HTMLElement
-const projectsManager = new ProjectsManager(projectsListUI)
+const todoListUI = document.getElementById("todo-list") as HTMLElement
+const projectsManager = new ProjectsManager(projectsListUI,todoListUI)
 
 // MUESTRA EL MODAL DE PROYECTO NUEVO AL PULSAR EL BOTON "new-project-btn"
 const newProjectBtn = document.getElementById("new-project-btn")
@@ -183,10 +186,78 @@ if (editprojectForm && editprojectForm instanceof HTMLFormElement) {
     })
 }
 
+const createTodoBtn = document.getElementById("create-todo-btn")
+if (createTodoBtn){
+    const editingProject = projectsManager.editingProject
+    createTodoBtn.addEventListener("click", (e) => {
+        toggleModal("new-todo-modal")
+    })
+} else {
+alert("Boton de creacion de todos no encontrado")
+}
+
+
+//CREAMOS TODO MEDIANTE FORMULARIO Y MODA, COMO EL NEW PROJECT
+// CONFIRMA Y COGE EL FORMULARIO "new-project-form" 
+const todoForm = document.getElementById("new-todo-form")
+if (todoForm && todoForm instanceof HTMLFormElement ) {
+
+    // BOTON DE CANCELAR DEL FORMULARIO NEW PROJECT. 
+    const cancelBtn = todoForm.querySelector("button[type=reset]")
+    if (cancelBtn){
+        cancelBtn.addEventListener("click", () => {
+            todoForm.reset()
+            toggleModal("new-todo-modal")
+        })
+    }
+
+    // BOTON DE ACEPTAR DEL FORMULARIO NEW PROJECT. IMPORTANTE. CREACION DE PROYECTO.
+    todoForm.addEventListener("submit", (e) => {
+        //EVITAMOS EL COMPORTAMIENTO NORMAL DEL ENVIO DE DATOS DEL FORMULARIO CON UN SUBMIT.
+        e.preventDefault();
+        const formData = new FormData(todoForm)
+        //CON formData.get("key") COGEMOS LOS VALORES. PONEMOS "as" PARA FORZAR EL TIPO DE DATO DESDE EL formData.get
+        const todoData: ITodo = {
+            title: formData.get("title") as string,
+            description: formData.get("description") as string,
+            user: formData.get("userRole") as string,
+            status: formData.get("status")as TodoStatus,
+            statusColor: "",
+            creationDate: new Date(formData.get("finishDate") as string),       
+            finishDate: new Date(formData.get("finishDate") as string),
+        }
+        
+        // SE INICIA LA CREACION DEL PROYECTO LLAMADO A LA FUNCION newProject de ProjectsManager
+        try {
+            const todo = projectsManager.newTodo(todoData)
+            todoForm.reset()
+            toggleModal("new-todo-modal")
+            console.log(todo)
+            // COGE LOS "throw error" DE LA FUNCION newProject de ProjectsManager Y LOS METE COMO "err"
+        } catch (err) {
+            //alert(err)
+            //"err" ES UN ELEMENTO HTML LABEL. AQUI LE INYECTA EL TEXTO DE err Y SACA EL MODAL "error-modal" QUE LO CONTIENE.
+            const message = document.getElementById("edit-err") as HTMLElement
+            message.textContent = err
+            toggleModal("edit-error-modal")
+            const editErrorModalForm = document.getElementById("edit-error-form")
+            if (editErrorModalForm) {
+                editErrorModalForm.addEventListener("click", (e) => {
+                    e.preventDefault
+                    toggleModal("edit-error-modal")
+                })
+            }
+        }     
+})
+}else{
+    console.warn("The project form was not found. Check the ID!")
+}
 
 
 
-const exportProjectsBtn= document.getElementById("export-projects-btn")
+
+
+const exportProjectsBtn = document.getElementById("export-projects-btn")
 if(exportProjectsBtn){
     exportProjectsBtn.addEventListener("click",()=>{
         projectsManager.exportToJSON()
@@ -212,6 +283,3 @@ if (projectPageBtn) {
 } else {
     console.warn("Projects Page button not found")
 }
-
-
-

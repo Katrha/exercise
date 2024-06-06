@@ -319,6 +319,25 @@ select:focus {
     outline: none;
 }
 
+
+.todo-btn {
+    background-color: transparent;
+    cursor: pointer;
+    padding: 5px 5px;
+
+    align-items:center;
+    border-radius: 50px;
+    border: none;
+}
+
+
+
+.todo-btn:hover {
+    background-color: var(--primary);
+}
+
+
+
 .todo-item {
     padding: 20px;
     background-color: var(--background-200);
