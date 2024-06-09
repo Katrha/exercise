@@ -1,4 +1,4 @@
-import { IProject, Project } from "./Project"
+import { IProject, Project, ProjectStatus, UserRole } from "./Project"
 import { ITodo, Todo } from "./ToDo"
 
 export class ProjectsManager {
@@ -61,19 +61,17 @@ newProject(data: IProject){
 
 
 newTodo (data: ITodo) { 
+
+    //VALIDACIONES
+    this.validationTodoInUse(data.title)
+    this.validationNameLength(data.title,5)
+
     const todo = new Todo(data)
     let todoList = this.editingProject.todo
     todoList.push(todo)
-    console.log(this.editingProject)
 
     this.todoUi.append(todo.ui)
 }
-
-
-
-
-
-
 
 public setDetailsPage(project: Project) {
     const detailsPage = document.getElementById("project-details")
@@ -89,25 +87,22 @@ public setDetailsPage(project: Project) {
         const cost = detailsPage.querySelector("[data-project-info='cost']")
         const userRole = detailsPage.querySelector("[data-project-info='userRole']")
         const finishDate = detailsPage.querySelector("[data-project-info='finishDate']")
-
+        const finishDateConst = new Date(project.finishDate)
         const progress = document.getElementById("progress-bar")
 
         //COGE LAS PROPIEDADES DEL project PASADO A LA FUNCION, Y LAS INYECTA EN LOS ELEMENTOS HTML, VIA EL "data-project-info"
         if (nameTitle) { nameTitle.textContent = project.name }
         if (descriptionTitle) { descriptionTitle.textContent = project.description }
-
         if (acronym) { acronym.style.backgroundColor = project.acronynColor; acronym.textContent = project.name.slice(0,2).toUpperCase() }
-
         if (name) { name.textContent = project.name }
         if (description) { description.textContent = project.description }
         if (status) { status.textContent = project.status }
         if (cost) { cost.textContent = project.cost.toString() }
         if (userRole) { userRole.textContent = project.userRole }
-        if (finishDate) { finishDate.textContent = project.finishDate.toDateString() }
+        if (finishDate) { finishDate.textContent = finishDateConst.toDateString() }
+        if (progress) { progress.style.width = project.progress.toString() +"%"; progress.textContent=project.progress.toString() +"%"}
 
-        if (progress) { progress.style.width = project.progress.toString() +"%"; progress.textContent=project.progress.toString()+"%"}
-
-        // HABRIA QUE MOSTRAR SOLO LOS ELEMENTOS UI DE LOS TODO DEL PROJECTO.
+        // MUESTRA LOS TODO DEL PROYECTO 
 
         const todoListDiv = document.getElementById("todo-list") as HTMLDivElement
         todoListDiv.innerHTML =""
@@ -115,16 +110,7 @@ public setDetailsPage(project: Project) {
         todoElements.forEach(element => {
             todoListDiv.append(element.ui);
         });
-
-
-
-
-
-
-
 }
-
-//HACER FUNCION PARA MOSTRAR LOS ELEMENTOS HTML TODO
 
 public setEditModal(project: Project){
     const editProjectName = document.getElementById("edit-project-name") as HTMLInputElement;
@@ -132,6 +118,7 @@ public setEditModal(project: Project){
     const editProjectCost= document.getElementById("edit-project-cost") as HTMLInputElement;
     const editProjectRole = document.getElementById("edit-project-role") as HTMLInputElement;
     const editProjectStatus = document.getElementById("edit-project-status") as HTMLInputElement;
+    const editDateConst = new Date(project.finishDate)
     const editProjectDate = document.getElementById("edit-finish-date") as HTMLInputElement;
     
     if (editProjectName) { editProjectName.value = project.name }
@@ -141,7 +128,7 @@ public setEditModal(project: Project){
     if (editProjectRole) { editProjectRole.value = project.userRole }
     if (editProjectStatus) { editProjectStatus.value = project.status }
 
-    if (editProjectDate) { editProjectDate.value = project.finishDate.toISOString().slice(0,10) }
+    if (editProjectDate) { editProjectDate.value = editDateConst.toISOString().slice(0,10) }
 }   
 public editProjectCard(project: Project,) {
     const newInnerDIV =
@@ -178,11 +165,12 @@ public editProjectCard(project: Project,) {
 public validationNameLength(name: string, length: number ){
 const validationName = name
 if (name.length <length){
-    throw new Error(`"${name}" is not a valid Project name cause it is too short. Please enter a new Project name at least 5 character long.`)
+    throw new Error(`"${name}" is not a valid cause it is too short. Please enter a new name at least 5 character long.`)
     }
 }
 
-public validationNameInUseEdit(editingProject: string ="PACO", newProjectName: string,){
+
+public validationNameInUseEdit(editingProject: string, newProjectName: string,){
     // projectNames ES EL RESULTADO DE APLICAR LA FUNCION "return project.name" A TODOS LOS ELEMENTOS DE LIST.projectVariable SOLO SIRVE DE MANERA LOCAL A ESTA FUNCION.
     const projectNames = this.list.map((projectVariable) => { return projectVariable.name  })
     // SI "data.name" SE ENCUENTRA EN projectNames, DA ERROR.
@@ -200,6 +188,14 @@ public validationNameInUse(name: string){
     const nameInUse = projectNames.includes(name)
     if (nameInUse) {
     throw new Error(`"${name}" already exists`)
+    }
+}
+
+public validationTodoInUse(title:string){
+    const todoTitles = this.editingProject.todo.map((todoTitle) => { return todoTitle.title  })
+    const todoInUse = todoTitles.includes(title)
+    if (todoInUse) {
+        throw new Error(`"${title}" already exists`)
     }
 }
 
@@ -256,25 +252,65 @@ importFromJSON() {
     input.type = 'file'
     input.accept = 'application/json'
     const reader = new FileReader()
+
     reader.addEventListener("load", () => {
         const json = reader.result
         if(!json) {return}
-        const projects: IProject [] = JSON.parse(json as string)
+        // rawProjects tiene el array en bruto del json, a traves de IProject, parseao json.
+        const rawProjects: IProject [] = JSON.parse(json as string)
+        // projects es una array de projects,  desde rawProjects con map, creando los distintos projects. y hace la misa operacion anidada 
+        // sacar una array de todo.
+        const projects: Project[] = rawProjects.map(rawProject => {
+            const todos = rawProject.todo.map(rawTodo => {
+                return new Todo({
+                //id: rawTodo.id,
+                title: rawTodo.title,
+                description: rawTodo.description,
+                user: rawTodo.user,
+                status: rawTodo.status,
+                statusColor: rawTodo.statusColor,
+                creationDate: new Date(rawTodo.creationDate),
+                finishDate: new Date(rawTodo.finishDate)
+            });
+        });
+        // crear project, con todo ya hecha.
+        return new Project({
+            progress: rawProject.progress,
+            //id: rawProject.id,
+            todo: todos,
+            name: rawProject.name,
+            description: rawProject.description,
+            cost: rawProject.cost,
+            userRole: rawProject.userRole,
+            status: rawProject.status,
+            finishDate: rawProject.finishDate,
+           // acronynColor: rawProject.acronynColor
+        });
+        })
+        // crea todos los projectos, con el formato adecuado tras el parseao.
         for (const project of projects) {
-            try {
-                this.newProject(project)
+            try {   
+                console.log(project)         
+                this.newProject(project)    
             } catch (error) {
-
+                console.error(error);
             }
             
         }
-    })
+    });
+
+
     input.addEventListener('change', () => {
         const filesList = input.files
         if (!filesList) { return }
-        reader.readAsText(filesList[0])
-    })
+        reader.readAsText(filesList[0])})
     input.click()
-    }
+    
+console.log(this.list)
+    
+}
+
+
+
 }
 

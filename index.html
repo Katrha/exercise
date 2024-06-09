@@ -367,7 +367,7 @@
                                     style="padding-right: 10px; padding-top: 0px">apartment</span>
                                 <label>Title</label>
                             </div>
-                            <input name="title" type="text" placeholder="What is the title of this todo item?">
+                            <input name="title" type="text" required="true" placeholder="What is the title of this todo item?">
                         </div>
 
                         <!-- DESCRIPTION -->
@@ -377,7 +377,7 @@
                                     style="padding-right: 10px; padding-top: 0px">article</span>
                                 <label>Description</label>
                             </div>
-                            <textarea name="description" cols="30" rows="5"
+                            <textarea name="description" required="true" cols="30" rows="5"
                                 placeholder="Describe the actions to be done"></textarea>
                         </div>
                         
@@ -388,7 +388,7 @@
                                     style="padding-right: 10px; padding-top: 0px">not_listed_location</span>
                                 <label>Status</label>
                             </div>
-                            <select name="status" >
+                            <select name="status" required="true">
                                 <option>Pending</option>
                                 <option>Active</option>
                                 <option>Finished</option>
@@ -412,7 +412,7 @@
                                     style="padding-right: 10px; padding-top: 0px">calendar_month</span>
                                 <label>Creation date</label>
                             </div>
-                            <input id="creationDate" name="creationDate" type="date">
+                            <input id="creationDate" required="true" name="creationDate" type="date">
                         </div>
 
                         <!-- FINISH DATE -->
@@ -422,7 +422,7 @@
                                     style="padding-right: 10px; padding-top: 0px">calendar_month</span>
                                 <label>Finish date</label>
                             </div>
-                            <input id="finishDate" name="finishDate" type="date">
+                            <input id="finishDate" required="true" name="finishDate" type="date">
                         </div>
 
                     </div>

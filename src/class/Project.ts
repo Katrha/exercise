@@ -11,6 +11,7 @@ export interface IProject {
     userRole: UserRole
     finishDate: Date
     progress: number
+    todo: Todo[]
 }
 
 // implments OBLIGA A QUE CADA VEZ QUE HAGAMOS UN OBJETO PROJECT, TENGA TODOS LAS PROPIEDADES DE LA INTERFACE
@@ -21,17 +22,19 @@ export class Project implements IProject {
     status: "pending" | "active" | "finished"  
     userRole: "architect" | "engineer" | "developer"
     finishDate: Date
+    todo: Todo[]
 
     //Class internals
     ui: HTMLDivElement
     progress: number = 0
     id: string
     acronynColor: string
-    todo: Todo[]
+    
 
 // (data: IProject) YA DEFINE TODOS LOS TIPOS DE DATOS NECESARIOS DESDE LA INTERFAZ
     constructor(data: IProject) {
         this.id = uuidv4()
+        this.todo = []
         //Project data definition
         for (const key in data) {
             if (key === "ui"){
@@ -40,7 +43,6 @@ export class Project implements IProject {
             this[key] = data[key]
         }
         //LLAMAMOS AL METODO setUI PARA CREAR ACONTINUACION LA UI (CARD) DEL PROYECTO CREADO.
-        this.todo = []
         this.acronynColor = getRandomColor()
         this.setUI()
     }

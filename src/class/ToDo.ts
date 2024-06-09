@@ -10,6 +10,7 @@ export interface ITodo {
     user: string
     creationDate: Date
     finishDate: Date
+    
 }
 
 export class Todo implements ITodo {
@@ -47,7 +48,7 @@ export class Todo implements ITodo {
                 <span class="material-symbols-outlined" style="padding: 10px; background-color: #686868; border-radius: 10px;">construction</span>
                 <p>${this.title}</p>
         </div>
-            <p style="text-wrap: nowrap; margin-left: 10px;">${this.creationDate}</p>
+            <p style="text-wrap: nowrap; margin-left: 10px;" value="2024-01-01">${this.creationDate.toDateString()}</p>
         </div>`
     }
 }

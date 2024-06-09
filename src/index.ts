@@ -96,13 +96,13 @@ if (projectForm && projectForm instanceof HTMLFormElement ) {
             status: formData.get("status")as ProjectStatus,       
             finishDate: new Date(formData.get("finishDate") as string),
             progress: 0,
+            todo: []
         }
         // SE INICIA LA CREACION DEL PROYECTO LLAMADO A LA FUNCION newProject de ProjectsManager
         try {
             const project = projectsManager.newProject(projectData)
             projectForm.reset()
             toggleModal("new-project-modal")
-            console.log(project)
             // COGE LOS "throw error" DE LA FUNCION newProject de ProjectsManager Y LOS METE COMO "err"
         } catch (err) {
             //alert(err)
@@ -156,6 +156,7 @@ if (editprojectForm && editprojectForm instanceof HTMLFormElement) {
             status: editformData.get("status") as ProjectStatus,
             finishDate: new Date(editformData.get("finishDate") as string),
             progress: parseFloat(editformData.get("progress") as string),
+            todo:[],
         }
         // CAMBIAR VALORES DEL PROYECTO EN CUESTION DIRECTAMENTE. FUNCIONA. CAMBIAR LA PROJECT CARD EN LA PAGINA DE PROJECTOS.
         try {
@@ -211,7 +212,7 @@ if (todoForm && todoForm instanceof HTMLFormElement ) {
         })
     }
 
-    // BOTON DE ACEPTAR DEL FORMULARIO NEW PROJECT. IMPORTANTE. CREACION DE PROYECTO.
+    // BOTON DE ACEPTAR DEL FORMULARIO NEW TODO. IMPORTANTE. CREACION DE TODO.
     todoForm.addEventListener("submit", (e) => {
         //EVITAMOS EL COMPORTAMIENTO NORMAL DEL ENVIO DE DATOS DEL FORMULARIO CON UN SUBMIT.
         e.preventDefault();
@@ -225,14 +226,14 @@ if (todoForm && todoForm instanceof HTMLFormElement ) {
             statusColor: "",
             creationDate: new Date(formData.get("finishDate") as string),       
             finishDate: new Date(formData.get("finishDate") as string),
+            
         }
         
-        // SE INICIA LA CREACION DEL PROYECTO LLAMADO A LA FUNCION newProject de ProjectsManager
+        // SE INICIA LA CREACION DEL TODO LLAMADO A LA FUNCION newProject de ProjectsManager
         try {
             const todo = projectsManager.newTodo(todoData)
             todoForm.reset()
             toggleModal("new-todo-modal")
-            console.log(todo)
             // COGE LOS "throw error" DE LA FUNCION newProject de ProjectsManager Y LOS METE COMO "err"
         } catch (err) {
             //alert(err)
